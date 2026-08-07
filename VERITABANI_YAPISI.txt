@@ -1,0 +1,46 @@
+ARAZİ ÇIKIŞ CETVELİ - SQLite VERİTABANI YAPISI
+==============================================
+
+Dosya adı: arazi-cikis-verileri.db
+Veritabanı: SQLite
+Şema sürümü: 1
+
+1) app_state
+   id INTEGER PRIMARY KEY
+   selected_year INTEGER
+   selected_month INTEGER (0-11)
+
+2) years
+   year INTEGER PRIMARY KEY
+
+3) settings
+   id INTEGER PRIMARY KEY
+   prepared_by TEXT
+   prepared_title TEXT
+   approved_by TEXT
+   approved_title TEXT
+
+4) month_signatures
+   year INTEGER
+   month INTEGER (1-12)
+   prepared_by TEXT
+   prepared_title TEXT
+   approved_by TEXT
+   approved_title TEXT
+   PRIMARY KEY(year, month)
+
+5) entries
+   year INTEGER
+   month INTEGER (1-12)
+   day INTEGER (1-31)
+   plate TEXT
+   place TEXT
+   subject TEXT
+   description TEXT
+   PRIMARY KEY(year, month, day)
+
+6) metadata
+   key TEXT PRIMARY KEY
+   value TEXT
+
+Kayıt işlemleri BEGIN IMMEDIATE / COMMIT transaction içinde yürütülür.

@@ -1,0 +1,19 @@
+# Derlenmiş uygulamalar
+*.exe
+
+# SQLite verileri
+*.db
+*.db-shm
+*.db-wal
+
+# Yedekler
+Yedekler/
+backups/
+
+# Geçici dosyalar
+*.tmp
+*.log
+
+# Windows
+Thumbs.db
+Desktop.ini

@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Arazi Çıkış Cetveli Masaüstü</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">KAYAPINAR İLÇE TARIM VE ORMAN MÜDÜRLÜĞÜ</p>
+      <h1>Arazi Çıkış Cetveli</h1>
+      <p class="subtitle">Yıla ve aya göre otomatik oluşturulan seyyar görev formu</p>
+    </div>
+
+    <div class="header-actions">
+      <span id="saveStatus" class="save-status" aria-live="polite">Kaydedildi</span>
+      <button id="backupButton" class="button button-secondary" type="button">SQLite Yedeği Al</button>
+      <button id="restoreButton" class="button button-secondary" type="button">Yedek Yükle</button>
+      <button id="openDataFolderButton" class="button button-secondary" type="button">Veri Klasörü</button>
+      <button id="printButton" class="button button-primary" type="button">Yazdır / PDF</button>
+      <button id="closeAppButton" class="button button-danger" type="button">Uygulamayı Kapat</button>
+      <input id="restoreInput" type="file" accept=".db,application/vnd.sqlite3,application/octet-stream,.json,application/json" hidden>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="control-panel" aria-label="Takvim seçimi">
+      <div class="year-control">
+        <label for="yearSelect">Yıl</label>
+        <select id="yearSelect"></select>
+        <button id="addYearButton" class="icon-button" type="button" title="Yeni yıl ekle" aria-label="Yeni yıl ekle">+</button>
+      </div>
+
+      <div class="legend">
+        <span><i class="legend-box weekday-box"></i>Hafta içi</span>
+        <span><i class="legend-box weekend-box"></i>Boş hafta sonu</span>
+        <span><i class="legend-box entered-weekend-box"></i>Veri girilmiş hafta sonu</span>
+      </div>
+    </section>
+
+    <nav id="monthTabs" class="month-tabs" aria-label="Aylar"></nav>
+
+    <section id="formCard" class="form-card">
+      <div class="print-title">
+        <h2>KAYAPINAR İLÇE TARIM VE ORMAN MÜDÜRLÜĞÜ SEYYAR GÖREV TAZMİNATINA ESAS AYLIK ARAZİ ÇIKIŞ FORMU</h2>
+        <div class="form-subtitle-row">
+          <strong>EK ÖZEL HİZMET TAZMİNATINA ESAS AYLIK ARAZİ ÇIKIŞ CETVELİ</strong>
+          <strong id="periodLabel"></strong>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table id="entryTable">
+          <colgroup>
+            <col class="col-number">
+            <col class="col-date">
+            <col class="col-plate">
+            <col class="col-place">
+            <col class="col-subject">
+            <col class="col-description">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>SIRA NO</th>
+              <th>TARİH</th>
+              <th>GÖREVE GİDİLEN ARACIN PLAKASI</th>
+              <th>GÖREVİN GİDİLEN YER</th>
+              <th>GÖREVİN KONUSU</th>
+              <th>AÇIKLAMA</th>
+            </tr>
+          </thead>
+          <tbody id="entryBody"></tbody>
+        </table>
+      </div>
+
+      <footer class="signature-area">
+        <section class="signature-block">
+          <strong>HAZIRLAYAN</strong>
+          <label>
+            <span>Veteriner adı</span>
+            <input id="preparedByInput" class="signature-input" type="text" autocomplete="off">
+          </label>
+          <label>
+            <span>Unvan</span>
+            <input id="preparedTitleInput" class="signature-input" type="text" autocomplete="off">
+          </label>
+          <div id="preparedDate" class="signature-date"></div>
+        </section>
+
+        <section class="signature-block">
+          <strong>ONAYLAYAN</strong>
+          <label>
+            <span>Müdür adı</span>
+            <input id="approvedByInput" class="signature-input" type="text" autocomplete="off">
+          </label>
+          <label>
+            <span>Unvan</span>
+            <input id="approvedTitleInput" class="signature-input" type="text" autocomplete="off">
+          </label>
+          <div id="approvedDate" class="signature-date"></div>
+        </section>
+      </footer>
+    </section>
+
+    <section class="bottom-actions">
+      <button id="clearMonthButton" class="button button-danger" type="button">Seçili Ayı Temizle</button>
+      <p id="storageInfo">Veriler yerel SQLite veritabanına otomatik kaydedilir. Günlük .db yedekleme etkindir.</p>
+    </section>
+  </main>
+
+  <datalist id="plateSuggestions"></datalist>
+  <datalist id="placeSuggestions"></datalist>
+  <datalist id="subjectSuggestions"></datalist>
+
+  <script src="script.js"></script>
+</body>
+</html>
