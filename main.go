@@ -31,6 +31,9 @@ var embeddedWeb embed.FS
 
 const (
 	appFolderName = "AraziCikisCetveli"
+	appVersion    = "1.1.0"
+	developerName = "JustBesa"
+	developerURL  = "https://github.com/JustBesa"
 	dataFileName  = "arazi-cikis-verileri.db"
 	legacyName    = "arazi-cikis-verileri.json"
 	maxStateBytes = 16 << 20
@@ -167,15 +170,9 @@ func main() {
 }
 
 func newApp() (*app, error) {
-	baseDir := strings.TrimSpace(os.Getenv("APPDATA"))
-
-	if baseDir == "" {
-		homeDir, err := os.UserHomeDir()
-		if err != nil {
-			return nil, fmt.Errorf("kullanıcı veri klasörü bulunamadı: %w", err)
-		}
-
-		baseDir = filepath.Join(homeDir, "AppData", "Roaming")
+	baseDir, err := os.UserConfigDir()
+	if err != nil || strings.TrimSpace(baseDir) == "" {
+		baseDir = os.TempDir()
 	}
 
 	dataDir := filepath.Join(baseDir, appFolderName)
@@ -216,6 +213,7 @@ func (a *app) routes() http.Handler {
 	mux.HandleFunc("/api/backup", a.auth(a.handleBackup))
 	mux.HandleFunc("/api/open-data-folder", a.auth(a.handleOpenDataFolder))
 	mux.HandleFunc("/api/heartbeat", a.auth(a.handleHeartbeat))
+	mux.HandleFunc("/api/welcome", a.auth(a.handleWelcome))
 	mux.HandleFunc("/api/shutdown", a.auth(a.handleShutdown))
 	mux.Handle("/", http.FileServer(http.FS(webRoot)))
 
@@ -243,7 +241,7 @@ func (a *app) handleHealth(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Yöntem desteklenmiyor", http.StatusMethodNotAllowed)
 		return
 	}
-	writeJSON(w, http.StatusOK, map[string]any{"ok": true, "database": "SQLite"})
+	writeJSON(w, http.StatusOK, map[string]any{"ok": true, "database": "SQLite", "version": appVersion, "developer": developerName})
 }
 
 func (a *app) handleHeartbeat(w http.ResponseWriter, r *http.Request) {
@@ -252,6 +250,55 @@ func (a *app) handleHeartbeat(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func (a *app) handleWelcome(w http.ResponseWriter, r *http.Request) {
+	switch r.Method {
+	case http.MethodGet:
+		seen, err := a.welcomeNoticeSeen()
+		if err != nil {
+			log.Printf("ilk açılış bildirimi okunamadı: %v", err)
+			http.Error(w, "Bildirim durumu okunamadı", http.StatusInternalServerError)
+			return
+		}
+		writeJSON(w, http.StatusOK, map[string]any{
+			"show":      !seen,
+			"developer": developerName,
+			"github":    developerURL,
+			"version":   appVersion,
+		})
+
+	case http.MethodPost:
+		if err := a.markWelcomeNoticeSeen(); err != nil {
+			log.Printf("ilk açılış bildirimi kaydedilemedi: %v", err)
+			http.Error(w, "Bildirim durumu kaydedilemedi", http.StatusInternalServerError)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
+
+	default:
+		http.Error(w, "Yöntem desteklenmiyor", http.StatusMethodNotAllowed)
+	}
+}
+
+func (a *app) welcomeNoticeSeen() (bool, error) {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+
+	var rows []struct {
+		Value string `json:"value"`
+	}
+	if err := a.queryJSON(`SELECT value FROM metadata WHERE key='welcome_notice_v1_seen' LIMIT 1;`, &rows); err != nil {
+		return false, err
+	}
+	return len(rows) > 0 && rows[0].Value == "1", nil
+}
+
+func (a *app) markWelcomeNoticeSeen() error {
+	a.mu.Lock()
+	defer a.mu.Unlock()
+	_, err := a.runSQLiteOn(a.dataFile, `INSERT OR REPLACE INTO metadata(key,value) VALUES('welcome_notice_v1_seen','1');`, false)
+	return err
 }
 
 func (a *app) handleState(w http.ResponseWriter, r *http.Request) {

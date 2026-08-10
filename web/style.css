@@ -492,6 +492,112 @@ tr.weekend-empty .cell-input::placeholder {
   }
 }
 
+
+.developer-credit {
+  position: fixed;
+  right: 18px;
+  bottom: 16px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 11px;
+  border: 1px solid rgba(23, 107, 84, 0.18);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 6px 20px rgba(25, 39, 63, 0.10);
+  color: var(--muted);
+  font-size: 11px;
+  backdrop-filter: blur(8px);
+}
+
+.developer-credit a {
+  color: var(--primary);
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.developer-credit a:hover {
+  text-decoration: underline;
+}
+
+.first-launch-notice {
+  position: fixed;
+  right: 18px;
+  bottom: 62px;
+  z-index: 60;
+  width: min(380px, calc(100vw - 36px));
+  padding: 17px 44px 16px 18px;
+  border: 1px solid #9bc8ba;
+  border-radius: 14px;
+  background: #f3fbf8;
+  box-shadow: 0 18px 45px rgba(25, 39, 63, 0.18);
+  color: #173c32;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.18s ease, transform 0.18s ease;
+}
+
+.first-launch-notice.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.first-launch-notice strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+
+.first-launch-notice p {
+  margin: 0 0 8px;
+  color: #315d51;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.first-launch-notice a {
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.first-launch-notice a:hover {
+  text-decoration: underline;
+}
+
+.welcome-close {
+  position: absolute;
+  top: 8px;
+  right: 9px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: #477469;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.welcome-close:hover {
+  background: #dcefe9;
+}
+
+@media (max-width: 620px) {
+  .developer-credit {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .first-launch-notice {
+    right: 10px;
+    bottom: 56px;
+    width: calc(100vw - 20px);
+  }
+}
+
 @media print {
   @page {
     size: A4 landscape;
@@ -514,7 +620,9 @@ tr.weekend-empty .cell-input::placeholder {
   .app-header,
   .control-panel,
   .month-tabs,
-  .bottom-actions {
+  .bottom-actions,
+  .developer-credit,
+  .first-launch-notice {
     display: none !important;
   }
 

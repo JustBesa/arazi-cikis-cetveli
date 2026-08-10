@@ -1,0 +1,58 @@
+ARAZİ ÇIKIŞ CETVELİ - SQLite MASAÜSTÜ SÜRÜMÜ v1.3
+====================================================
+
+BU SÜRÜMDE NE DEĞİŞTİ?
+- Veriler artık JSON dosyasına değil gerçek bir SQLite SQL veritabanına kaydedilir.
+- Ana veritabanı dosyası: arazi-cikis-verileri.db
+- Tüm kayıtlar SQL tablolarında tutulur.
+- Günlük ve manuel yedekler .db biçiminde oluşturulur.
+- Eski JSON sürümündeki kayıtlar varsa ilk açılışta otomatik olarak SQLite'a aktarılır.
+
+ÇALIŞTIRMA
+1. Önce eski Arazi Çıkış Cetveli uygulamasını tamamen kapatın.
+2. Arazi-Cikis-Cetveli-v1.3-SQLite.exe dosyasına çift tıklayın.
+3. İlk açılışta uygulama resmi SQLite bileşenini hazırlayabilir. Bu işlem için yalnızca ilk
+   açılışta internet bağlantısı gerekebilir. Sonraki kullanımlar internet olmadan çalışır.
+4. Formdaki değişiklikler yaklaşık 0,35 saniye içinde otomatik kaydedilir.
+
+VERİ KLASÖRÜ
+%APPDATA%\AraziCikisCetveli
+
+Ana veritabanı:
+%APPDATA%\AraziCikisCetveli\arazi-cikis-verileri.db
+
+Yedek klasörü:
+%APPDATA%\AraziCikisCetveli\Yedekler
+
+SQL TABLOLARI
+- app_state: seçili yıl ve ay
+- years: uygulamadaki yıllar
+- settings: genel veteriner ve müdür bilgileri
+- month_signatures: aylara özel hazırlayan/onaylayan bilgileri
+- entries: günlük plaka, gidilen yer, görev konusu ve açıklama kayıtları
+- metadata: veritabanı sürümü ve son kayıt zamanı
+
+ESKİ JSON VERİLERİ
+- Eski arazi-cikis-verileri.json dosyası bulunursa otomatik olarak SQLite'a aktarılır.
+- Aktarım tamamlandıktan sonra JSON dosyası .migrated-tarih-saat uzantısıyla saklanır.
+- Mevcut veriler kaybolmadan yeni SQL sistemine geçirilir.
+
+YEDEKLEME
+- SQLite Yedeği Al düğmesi hem Yedekler klasörüne manuel .db yedeği oluşturur hem de
+  indirilecek bir .db dosyası sunar.
+- Yedek Yükle düğmesi .db yedeklerini geri yükler.
+- Eski .json yedekleri de yüklenebilir ve SQLite'a dönüştürülür.
+- En fazla son 90 yerel .db yedeği saklanır.
+
+YAZDIRMA / PDF
+- Form A4 yatay düzende, 31 günlük aylar ve imza alanları dahil tek sayfaya sığar.
+
+ÖNEMLİ
+- .exe dosyasını silmek veritabanını silmez; veriler AppData klasöründe kalır.
+- Verileri tamamen silmek için uygulama kapalıyken veri klasöründeki
+  arazi-cikis-verileri.db dosyasının silinmesi gerekir.
+- Aynı veritabanı dosyasını ağ klasöründe birden fazla bilgisayarın eş zamanlı kullanması
+  önerilmez. Bu sürüm tek bilgisayar/tek kullanıcı kullanımı içindir.
+
+SÜRÜM
+1.3 SQLite - Ağustos 2026

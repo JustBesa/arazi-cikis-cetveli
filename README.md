@@ -1,63 +1,83 @@
 # Arazi Çıkış Cetveli
 
-Windows üzerinde çalışan, aylık arazi çıkış kayıtlarının tutulması için geliştirilmiş masaüstü uygulaması.
+Tarım ve Orman Bakanlığına bağlı veteriner hekimlerin aylık arazi çıkış kayıtlarını daha düzenli tutabilmesi için geliştirilmiş ücretsiz Windows masaüstü uygulaması.
 
-Uygulama; yıl ve ay bazlı kayıt oluşturmayı, hafta sonlarını otomatik işaretlemeyi, kayıtları SQLite veritabanında saklamayı ve aylık cetveli PDF olarak oluşturmayı sağlar.
+Uygulama **JustBesa** tarafından geliştirilmiştir.
+
+**Geliştirici / GitHub:** https://github.com/JustBesa
 
 ## Özellikler
 
-- Yıl ve ay bazlı kayıt sistemi
-- Seçilen yıla göre ayların otomatik oluşturulması
-- Tarihlerin takvimden otomatik hesaplanması
-- Hafta içlerinin normal beyaz görünmesi
-- Boş hafta sonlarının koyu renkle işaretlenmesi
-- Hafta sonuna veri girildiğinde satırın otomatik normal görünüme dönmesi
-- Araç plakası kaydı
-- Göreve gidilen yer kaydı
-- Görev konusu kaydı
-- Açıklama alanı
-- Veteriner hekim bilgilerinin değiştirilebilmesi
-- İlçe müdürü bilgilerinin değiştirilebilmesi
-- SQLite veritabanı
-- Otomatik veri kaydı
-- Otomatik ve manuel yedekleme
-- A4 yatay tek sayfa PDF çıktısı
-- İnternet bağlantısı gerektirmeden çalışma
-- Windows uygulama ikonu
+- Yıl ve ay bazlı arazi çıkış kayıtları
+- Tarihlerin otomatik oluşturulması
+- Boş hafta sonlarının otomatik koyu renkle gösterilmesi
+- Hafta sonuna veri girildiğinde satırın normal görünüme dönmesi
+- Araç plakası, görev yeri, görev konusu ve açıklama alanları
+- Veteriner hekim ve müdür bilgilerinin düzenlenmesi
+- SQLite ile yerel veri saklama
+- Otomatik ve manuel `.db` yedekleme
+- A4 yatay tek sayfa PDF / yazdırma çıktısı
+- İnternet bağlantısı olmadan çalışma
+- İlk açılışta geliştirici teşekkür bildirimi
 
-## Ekran Görüntüsü
+## İlk Açılış Bildirimi
 
-> Uygulama ekran görüntüsü buraya eklenecektir.
+Uygulama ilk çalıştırıldığında sağ alt köşede kısa bir teşekkür bildirimi gösterilir. Bildirim gösterildiği anda SQLite veritabanındaki `metadata` tablosuna kaydedilir ve sonraki açılışlarda tekrar gösterilmez.
 
-## İndirme
+Uygulamanın sağ alt köşesinde geliştirici bağlantısı kalıcı olarak bulunur:
 
-Uygulamayı kullanmak için kaynak kodu indirmenize gerek yoktur.
+**JustBesa · GitHub** — https://github.com/JustBesa
 
-GitHub sayfasındaki **Releases** bölümünden en güncel Windows sürümünü indirebilirsiniz.
-
-Son sürüm:
-
-**Arazi Çıkış Cetveli v1.0.0**
-
-İndirilecek dosya:
-
-`Arazi.Cikis.Cetveli.exe`
-
-## Kullanım
-
-1. Releases bölümünden `.exe` dosyasını indirin.
-2. Uygulamayı çalıştırın.
-3. Kullanmak istediğiniz yılı seçin.
-4. Üst bölümden ayı seçin.
-5. İlgili güne ait bilgileri tabloya girin.
-6. Girilen bilgiler otomatik olarak kaydedilir.
-7. PDF butonu ile seçili ayın cetveli oluşturulabilir.
+Bu geliştirici alanı PDF/yazdırma çıktısında görünmez.
 
 ## Veri Saklama
 
-Uygulama kayıtları programın bulunduğu klasörde tutulmaz.
-
-Windows üzerinde kullanıcıya özel veri klasörü kullanılır:
+Veriler uzak bir sunucuya gönderilmez. Yerel SQLite veritabanında saklanır.
 
 ```text
-%APPDATA%\AraziCikisCetveli
+%APPDATA%\AraziCikisCetveli\arazi-cikis-verileri.db
+```
+
+Yedekler aynı veri klasörü altındaki `Yedekler` klasöründe tutulur.
+
+## İndirme
+
+Hazır Windows sürümü için GitHub repository'sindeki **Releases** bölümünü kullanın.
+
+Repository: https://github.com/JustBesa/arazi-cikis-cetveli
+
+## Kaynak Koddan Derleme
+
+```powershell
+go test ./...
+go build -trimpath -ldflags="-H=windowsgui -s -w" -o "Arazi-Cikis-Cetveli.exe" .
+```
+
+Özel uygulama ikonunu kullanıyorsanız `rsrc_windows_amd64.syso` dosyasının proje klasöründe bulunduğundan emin olun.
+
+## Kullanılan Teknolojiler
+
+- Go
+- HTML
+- CSS
+- JavaScript
+- SQLite
+- Windows
+
+## Sürüm
+
+### v1.1.0
+
+- Geliştirici adı ve GitHub bağlantısı uygulamaya eklendi.
+- İlk açılışa özel teşekkür bildirimi eklendi.
+- Bildirimin yalnızca bir kez gösterilmesi SQLite `metadata` tablosu ile kalıcı hale getirildi.
+- Uygulama açıklaması Tarım ve Orman Bakanlığına bağlı veteriner hekimlere yönelik olacak şekilde güncellendi.
+
+### v1.0.0
+
+İlk kararlı sürüm.
+
+## Geliştirici
+
+**JustBesa**  
+GitHub: https://github.com/JustBesa

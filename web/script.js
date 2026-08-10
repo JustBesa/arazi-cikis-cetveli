@@ -31,6 +31,8 @@ const entryBody = document.getElementById("entryBody");
 const periodLabel = document.getElementById("periodLabel");
 const saveStatus = document.getElementById("saveStatus");
 const storageInfo = document.getElementById("storageInfo");
+const firstLaunchNotice = document.getElementById("firstLaunchNotice");
+const dismissWelcomeButton = document.getElementById("dismissWelcomeButton");
 
 const preparedByInput = document.getElementById("preparedByInput");
 const preparedTitleInput = document.getElementById("preparedTitleInput");
@@ -264,7 +266,7 @@ function createInput(day, field, value, listId = null) {
   input.autocomplete = "off";
   input.dataset.day = String(day);
   input.dataset.field = field;
-  //input.placeholder = isWeekend(state.selectedYear, state.selectedMonth, day) ? "Hafta sonu" : "";
+  input.placeholder = isWeekend(state.selectedYear, state.selectedMonth, day) ? "Hafta sonu" : "";
 
   if (listId) {
     input.setAttribute("list", listId);
@@ -305,7 +307,7 @@ function renderRows() {
     const date = new Date(state.selectedYear, state.selectedMonth, day);
     const dateCell = document.createElement("td");
     dateCell.className = "date-cell";
-    dateCell.innerHTML = `${formatDate(state.selectedYear, state.selectedMonth, day)}`;
+    dateCell.innerHTML = `${formatDate(state.selectedYear, state.selectedMonth, day)}<small>${WEEKDAYS[date.getDay()]}</small>`;
 
     const plateCell = document.createElement("td");
     plateCell.appendChild(createInput(day, "plate", dayData.plate, "plateSuggestions"));
@@ -568,10 +570,46 @@ bindSignatureInput(preparedTitleInput, "preparedTitle");
 bindSignatureInput(approvedByInput, "approvedBy");
 bindSignatureInput(approvedTitleInput, "approvedTitle");
 
+async function showFirstLaunchNotice() {
+  if (!desktopMode || !firstLaunchNotice) return;
+
+  try {
+    const response = await fetch(apiUrl("/api/welcome"), { cache: "no-store" });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+    const payload = await response.json();
+    if (!payload.show) return;
+
+    firstLaunchNotice.hidden = false;
+    requestAnimationFrame(() => firstLaunchNotice.classList.add("visible"));
+
+    // Bildirim gösterildiği anda SQLite metadata tablosuna kaydedilir.
+    // Böylece sonraki uygulama açılışlarında tekrar görünmez.
+    fetch(apiUrl("/api/welcome"), { method: "POST", keepalive: true }).catch((error) => {
+      console.error("İlk açılış bildirimi durumu kaydedilemedi:", error);
+    });
+  } catch (error) {
+    console.error("İlk açılış bildirimi gösterilemedi:", error);
+  }
+}
+
+function dismissFirstLaunchNotice() {
+  if (!firstLaunchNotice) return;
+  firstLaunchNotice.classList.remove("visible");
+  window.setTimeout(() => {
+    firstLaunchNotice.hidden = true;
+  }, 180);
+}
+
+if (dismissWelcomeButton) {
+  dismissWelcomeButton.addEventListener("click", dismissFirstLaunchNotice);
+}
+
 async function initializeApp() {
   saveStatus.textContent = "Veriler açılıyor...";
   await loadStateFromDisk();
   render();
+  await showFirstLaunchNotice();
   saveStatus.textContent = desktopMode ? "SQLite veritabanına kaydedildi" : "SQLite bağlantı hatası";
 }
 

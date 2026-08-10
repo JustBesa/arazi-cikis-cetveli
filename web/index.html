@@ -9,9 +9,9 @@
 <body>
   <header class="app-header">
     <div>
-      <p class="eyebrow">KAYAPINAR İLÇE TARIM VE ORMAN MÜDÜRLÜĞÜ</p>
+      <p class="eyebrow">TARIM VE ORMAN BAKANLIĞINA BAĞLI VETERİNER HEKİMLER İÇİN</p>
       <h1>Arazi Çıkış Cetveli</h1>
-      <p class="subtitle">Yıla ve aya göre otomatik oluşturulan seyyar görev formu</p>
+      <p class="subtitle">Aylık arazi çıkış kayıtlarını düzenlemek, saklamak ve çıktı almak için masaüstü uygulaması</p>
     </div>
 
     <div class="header-actions">
@@ -109,6 +109,18 @@
       <p id="storageInfo">Veriler yerel SQLite veritabanına otomatik kaydedilir. Günlük .db yedekleme etkindir.</p>
     </section>
   </main>
+
+  <aside class="developer-credit" aria-label="Geliştirici bilgisi">
+    <span>Geliştirici:</span>
+    <a href="https://github.com/JustBesa" target="_blank" rel="noopener noreferrer">JustBesa · GitHub</a>
+  </aside>
+
+  <aside id="firstLaunchNotice" class="first-launch-notice" role="status" aria-live="polite" hidden>
+    <button id="dismissWelcomeButton" class="welcome-close" type="button" aria-label="Bildirimi kapat">×</button>
+    <strong>Teşekkür ederim!</strong>
+    <p>Programı GitHub üzerinden indirdiğiniz ve projeme destek olduğunuz için teşekkür ederim.</p>
+    <a href="https://github.com/JustBesa" target="_blank" rel="noopener noreferrer">github.com/JustBesa</a>
+  </aside>
 
   <datalist id="plateSuggestions"></datalist>
   <datalist id="placeSuggestions"></datalist>

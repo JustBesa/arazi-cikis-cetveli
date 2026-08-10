@@ -1,0 +1,21 @@
+ARAZİ ÇIKIŞ CETVELİ v1.1.0
+
+Geliştirici: JustBesa
+GitHub: https://github.com/JustBesa
+
+YENİLİKLER
+- Uygulamada kalıcı geliştirici / GitHub bağlantısı eklendi.
+- İlk açılışta teşekkür bildirimi eklendi.
+- Bildirim bir kez gösterildikten sonra SQLite metadata tablosunda işaretlenir ve tekrar gösterilmez.
+- Geliştirici alanı ve ilk açılış bildirimi PDF çıktısında görünmez.
+- Uygulamanın üst açıklaması Tarım ve Orman Bakanlığına bağlı veteriner hekimlere göre güncellendi.
+
+GITHUB'A GÖNDERME
+1) Bu paketteki main.go ve web klasöründeki 3 dosyayı mevcut projenizdeki dosyaların üzerine kopyalayın.
+2) README.md dosyasını repo köküne koyun.
+3) Test: go test ./...
+4) EXE: go build -trimpath -ldflags="-H=windowsgui -s -w" -o "Arazi-Cikis-Cetveli.exe" .
+5) git add .
+6) git commit -m "v1.1.0 geliştirici bilgisi ve ilk açılış bildirimi"
+7) git push
+8) GitHub Releases bölümünde v1.1.0 etiketiyle yeni release oluşturun ve yeni EXE'yi yükleyin.
