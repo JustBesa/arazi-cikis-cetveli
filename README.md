@@ -2,6 +2,8 @@
 
 Tarım ve Orman Bakanlığına bağlı veteriner hekimlerin aylık arazi çıkış kayıtlarını daha düzenli tutabilmesi için geliştirilmiş ücretsiz Windows masaüstü uygulaması.
 
+> **Not:** Bu proje bağımsız bir yardımcı yazılımdır. Tarım ve Orman Bakanlığının resmi yazılımı veya resmi ürünü değildir.
+
 Uygulama **JustBesa** tarafından geliştirilmiştir.
 
 **Geliştirici / GitHub:** https://github.com/JustBesa
